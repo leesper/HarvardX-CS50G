@@ -163,7 +163,8 @@ function love.update(dt)
         end
         if ball:collides(player2) then
             ball.dx = -ball.dx * 1.03
-            ball.x = player2.x - 4
+            -- ball.x = player2.x - 4
+            ball.x = player2.x - 5
 
             -- keep velocity going in the same direction, but randomize it
             if ball.dy < 0 then
@@ -233,12 +234,18 @@ function love.update(dt)
     -- paddles can move no matter what state we're in
     --
     -- player 1
-    if love.keyboard.isDown('w') then
-        player1.dy = -PADDLE_SPEED
-    elseif love.keyboard.isDown('s') then
-        player1.dy = PADDLE_SPEED
-    else
-        player1.dy = 0
+    -- if love.keyboard.isDown('w') then
+    --     player1.dy = -PADDLE_SPEED
+    -- elseif love.keyboard.isDown('s') then
+    --     player1.dy = PADDLE_SPEED
+    -- else
+    --     player1.dy = 0
+    -- end
+    if ball.dx < 0 then
+        xTime = -1 * ball.x / ball.dx
+        ballDestY = ball.y + ball.dy * xTime
+        middleYOfPlayer1 = player1.y + player1.height / 2
+        player1.dy = (ballDestY - middleYOfPlayer1) / xTime
     end
 
     -- player 2
